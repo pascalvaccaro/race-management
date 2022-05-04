@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "runners",
+  "info": {
+    "singularName": "runner",
+    "pluralName": "runners",
+    "displayName": "Runner",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "firstName": {
+      "type": "string",
+      "required": true
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true,
+      "unique": false
+    },
+    "certificates": {
+      "type": "component",
+      "repeatable": true,
+      "component": "medical.certificat"
+    },
+    "attestations": {
+      "type": "component",
+      "repeatable": true,
+      "component": "medical.medical"
+    },
+    "blocked": {
+      "type": "boolean",
+      "default": false
+    },
+    "runs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::run.run",
+      "mappedBy": "runner"
+    },
+    "minor": {
+      "type": "boolean",
+      "default": false
+    },
+    "child": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

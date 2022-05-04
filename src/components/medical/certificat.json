@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_documents_certificats",
+  "info": {
+    "displayName": "Certificat",
+    "icon": "file-medical",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "expiration": {
+      "type": "date",
+      "required": true
+    },
+    "attachment": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    }
+  }
+}

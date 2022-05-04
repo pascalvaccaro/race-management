@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "runs",
+  "info": {
+    "singularName": "run",
+    "pluralName": "runs",
+    "displayName": "Run",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "chrono": {
+      "type": "time",
+      "default": "00:00"
+    },
+    "numberSign": {
+      "type": "integer",
+      "required": true,
+      "max": 100,
+      "min": 1,
+      "unique": false
+    },
+    "walking": {
+      "type": "boolean",
+      "default": false
+    },
+    "copyright": {
+      "type": "boolean",
+      "default": true
+    },
+    "runner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::runner.runner",
+      "inversedBy": "runs"
+    },
+    "dropped": {
+      "type": "boolean",
+      "default": false
+    },
+    "race": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::race.race",
+      "inversedBy": "runs"
+    }
+  }
+}

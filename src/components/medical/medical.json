@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_documents_medicals",
+  "info": {
+    "displayName": "Attestation",
+    "icon": "pen-nib",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "attachment": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "valid": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

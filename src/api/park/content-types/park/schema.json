@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "parks",
+  "info": {
+    "singularName": "park",
+    "pluralName": "parks",
+    "displayName": "Parcours",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "distance": {
+      "type": "decimal",
+      "default": 5
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "geolocalisation": {
+      "type": "text"
+    },
+    "itinerary": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "races": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::race.race",
+      "mappedBy": "parcours"
+    },
+    "laps": {
+      "type": "decimal"
+    },
+    "gallery": {
+      "allowedTypes": [
+        "images",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}
