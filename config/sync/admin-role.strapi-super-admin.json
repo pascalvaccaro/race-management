@@ -176,7 +176,10 @@
           "certificate.expiry",
           "certificate.file",
           "certificate.valid",
-          "email"
+          "email",
+          "minor",
+          "child",
+          "fullname"
         ]
       },
       "conditions": []
@@ -201,7 +204,10 @@
           "certificate.expiry",
           "certificate.file",
           "certificate.valid",
-          "email"
+          "email",
+          "minor",
+          "child",
+          "fullname"
         ]
       },
       "conditions": []
@@ -220,7 +226,10 @@
           "certificate.expiry",
           "certificate.file",
           "certificate.valid",
-          "email"
+          "email",
+          "minor",
+          "child",
+          "fullname"
         ]
       },
       "conditions": []

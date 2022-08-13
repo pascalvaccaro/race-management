@@ -7,7 +7,7 @@
       "filterable": true,
       "searchable": true,
       "pageSize": 10,
-      "mainField": "id",
+      "mainField": "expiry",
       "defaultSortBy": "id",
       "defaultSortOrder": "ASC"
     },
@@ -73,15 +73,15 @@
       "edit": [
         [
           {
-            "name": "expiry",
-            "size": 4
-          },
-          {
             "name": "file",
-            "size": 6
+            "size": 12
           }
         ],
         [
+          {
+            "name": "expiry",
+            "size": 6
+          },
           {
             "name": "valid",
             "size": 4

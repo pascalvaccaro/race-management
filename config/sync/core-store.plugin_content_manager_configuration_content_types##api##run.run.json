@@ -6,9 +6,9 @@
       "bulkable": true,
       "filterable": true,
       "searchable": true,
-      "pageSize": 10,
+      "pageSize": 50,
       "mainField": "numberSign",
-      "defaultSortBy": "id",
+      "defaultSortBy": "chrono",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -181,9 +181,10 @@
         "race"
       ],
       "list": [
-        "id",
-        "chrono",
+        "race",
         "numberSign",
+        "runner",
+        "chrono",
         "walking"
       ]
     }

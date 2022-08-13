@@ -50,6 +50,18 @@
     "email": {
       "type": "email",
       "unique": true
+    },
+    "minor": {
+      "type": "boolean",
+      "default": false
+    },
+    "child": {
+      "type": "boolean",
+      "default": false
+    },
+    "fullname": {
+      "type": "string",
+      "unique": true
     }
   }
 }

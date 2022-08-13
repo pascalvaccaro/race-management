@@ -6,8 +6,8 @@
       "bulkable": true,
       "filterable": true,
       "searchable": true,
-      "pageSize": 10,
-      "mainField": "firstname",
+      "pageSize": 50,
+      "mainField": "fullname",
       "defaultSortBy": "firstname",
       "defaultSortOrder": "ASC"
     },
@@ -135,6 +135,48 @@
           "sortable": true
         }
       },
+      "minor": {
+        "edit": {
+          "label": "minor",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "minor",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "child": {
+        "edit": {
+          "label": "child",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "child",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "fullname": {
+        "edit": {
+          "label": "fullname",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "fullname",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -169,17 +211,25 @@
         [
           {
             "name": "firstname",
-            "size": 6
+            "size": 4
           },
           {
             "name": "lastname",
-            "size": 6
+            "size": 4
+          },
+          {
+            "name": "email",
+            "size": 4
           }
         ],
         [
           {
-            "name": "email",
-            "size": 6
+            "name": "minor",
+            "size": 4
+          },
+          {
+            "name": "child",
+            "size": 4
           },
           {
             "name": "blocked",
@@ -199,9 +249,7 @@
         "children"
       ],
       "list": [
-        "id",
-        "firstname",
-        "lastname",
+        "fullname",
         "email"
       ]
     }
