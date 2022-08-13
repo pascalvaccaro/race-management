@@ -1,0 +1,194 @@
+{
+  "key": "plugin_content_manager_configuration_content_types::api::run.run",
+  "value": {
+    "uid": "api::run.run",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "numberSign",
+      "defaultSortBy": "id",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "chrono": {
+        "edit": {
+          "label": "chrono",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "chrono",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "numberSign": {
+        "edit": {
+          "label": "numberSign",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "numberSign",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "walking": {
+        "edit": {
+          "label": "walking",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "walking",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "copyright": {
+        "edit": {
+          "label": "copyright",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "copyright",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "runner": {
+        "edit": {
+          "label": "runner",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "firstname"
+        },
+        "list": {
+          "label": "runner",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "dropped": {
+        "edit": {
+          "label": "dropped",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "dropped",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "race": {
+        "edit": {
+          "label": "race",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "id"
+        },
+        "list": {
+          "label": "race",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "createdAt": {
+        "edit": {
+          "label": "createdAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "createdAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "updatedAt": {
+        "edit": {
+          "label": "updatedAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "updatedAt",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "edit": [
+        [
+          {
+            "name": "numberSign",
+            "size": 4
+          },
+          {
+            "name": "chrono",
+            "size": 4
+          }
+        ],
+        [
+          {
+            "name": "walking",
+            "size": 4
+          },
+          {
+            "name": "copyright",
+            "size": 4
+          },
+          {
+            "name": "dropped",
+            "size": 4
+          }
+        ]
+      ],
+      "editRelations": [
+        "runner",
+        "race"
+      ],
+      "list": [
+        "id",
+        "chrono",
+        "numberSign",
+        "walking"
+      ]
+    }
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

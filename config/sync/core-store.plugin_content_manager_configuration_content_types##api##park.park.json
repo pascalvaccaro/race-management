@@ -1,0 +1,200 @@
+{
+  "key": "plugin_content_manager_configuration_content_types::api::park.park",
+  "value": {
+    "uid": "api::park.park",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "name",
+      "defaultSortBy": "name",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "distance": {
+        "edit": {
+          "label": "distance",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "distance",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "name": {
+        "edit": {
+          "label": "name",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "name",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "geolocalisation": {
+        "edit": {
+          "label": "geolocalisation",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "geolocalisation",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "itinerary": {
+        "edit": {
+          "label": "itinerary",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "itinerary",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "laps": {
+        "edit": {
+          "label": "laps",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "laps",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "gallery": {
+        "edit": {
+          "label": "gallery",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "gallery",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "races": {
+        "edit": {
+          "label": "races",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "id"
+        },
+        "list": {
+          "label": "races",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "createdAt": {
+        "edit": {
+          "label": "createdAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "createdAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "updatedAt": {
+        "edit": {
+          "label": "updatedAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "updatedAt",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "edit": [
+        [
+          {
+            "name": "name",
+            "size": 4
+          },
+          {
+            "name": "distance",
+            "size": 4
+          },
+          {
+            "name": "laps",
+            "size": 4
+          }
+        ],
+        [
+          {
+            "name": "geolocalisation",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "itinerary",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "gallery",
+            "size": 12
+          }
+        ]
+      ],
+      "editRelations": [
+        "races"
+      ],
+      "list": [
+        "id",
+        "distance",
+        "name",
+        "geolocalisation"
+      ]
+    }
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}
