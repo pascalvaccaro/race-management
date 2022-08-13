@@ -173,13 +173,11 @@
           "children",
           "parent",
           "runs",
-          "certificate.expiry",
-          "certificate.file",
-          "certificate.valid",
           "email",
           "minor",
           "child",
-          "fullname"
+          "fullname",
+          "attachments"
         ]
       },
       "conditions": []
@@ -201,13 +199,11 @@
           "children",
           "parent",
           "runs",
-          "certificate.expiry",
-          "certificate.file",
-          "certificate.valid",
           "email",
           "minor",
           "child",
-          "fullname"
+          "fullname",
+          "attachments"
         ]
       },
       "conditions": []
@@ -223,13 +219,11 @@
           "children",
           "parent",
           "runs",
-          "certificate.expiry",
-          "certificate.file",
-          "certificate.valid",
           "email",
           "minor",
           "child",
-          "fullname"
+          "fullname",
+          "attachments"
         ]
       },
       "conditions": []

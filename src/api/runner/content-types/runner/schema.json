@@ -42,11 +42,6 @@
       "target": "api::run.run",
       "mappedBy": "runner"
     },
-    "certificate": {
-      "type": "component",
-      "repeatable": false,
-      "component": "attachments.certifificate"
-    },
     "email": {
       "type": "email",
       "unique": true
@@ -62,6 +57,13 @@
     "fullname": {
       "type": "string",
       "unique": true
+    },
+    "attachments": {
+      "type": "dynamiczone",
+      "components": [
+        "attachments.authorization",
+        "attachments.certificate"
+      ]
     }
   }
 }

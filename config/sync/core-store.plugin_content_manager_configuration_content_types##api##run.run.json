@@ -83,7 +83,7 @@
           "placeholder": "",
           "visible": true,
           "editable": true,
-          "mainField": "firstname"
+          "mainField": "fullname"
         },
         "list": {
           "label": "runner",
@@ -112,7 +112,7 @@
           "placeholder": "",
           "visible": true,
           "editable": true,
-          "mainField": "id"
+          "mainField": "startDate"
         },
         "list": {
           "label": "race",

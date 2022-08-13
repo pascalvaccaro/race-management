@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_attachments_certificates",
+  "info": {
+    "displayName": "Certificate",
+    "icon": "file-medical",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "expiry": {
+      "type": "date"
+    },
+    "valid": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

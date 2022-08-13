@@ -2370,11 +2370,6 @@
           "target": "api::run.run",
           "mappedBy": "runner"
         },
-        "certificate": {
-          "type": "component",
-          "repeatable": false,
-          "component": "attachments.certifificate"
-        },
         "email": {
           "type": "email",
           "unique": true
@@ -2388,7 +2383,15 @@
           "default": false
         },
         "fullname": {
-          "type": "string"
+          "type": "string",
+          "unique": true
+        },
+        "attachments": {
+          "type": "dynamiczone",
+          "components": [
+            "attachments.authorization",
+            "attachments.certificate"
+          ]
         },
         "createdAt": {
           "type": "datetime"
@@ -2460,11 +2463,6 @@
             "target": "api::run.run",
             "mappedBy": "runner"
           },
-          "certificate": {
-            "type": "component",
-            "repeatable": false,
-            "component": "attachments.certifificate"
-          },
           "email": {
             "type": "email",
             "unique": true
@@ -2478,7 +2476,15 @@
             "default": false
           },
           "fullname": {
-            "type": "string"
+            "type": "string",
+            "unique": true
+          },
+          "attachments": {
+            "type": "dynamiczone",
+            "components": [
+              "attachments.authorization",
+              "attachments.certificate"
+            ]
           }
         },
         "kind": "collectionType"

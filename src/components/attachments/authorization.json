@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_attachments_authorizations",
+  "info": {
+    "displayName": "Authorization",
+    "icon": "user-check",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "valid": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -69,7 +69,7 @@
           "placeholder": "",
           "visible": true,
           "editable": true,
-          "mainField": "firstname"
+          "mainField": "fullname"
         },
         "list": {
           "label": "children",
@@ -84,7 +84,7 @@
           "placeholder": "",
           "visible": true,
           "editable": true,
-          "mainField": "firstname"
+          "mainField": "fullname"
         },
         "list": {
           "label": "parent",
@@ -103,20 +103,6 @@
         },
         "list": {
           "label": "runs",
-          "searchable": false,
-          "sortable": false
-        }
-      },
-      "certificate": {
-        "edit": {
-          "label": "certificate",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "certificate",
           "searchable": false,
           "sortable": false
         }
@@ -177,6 +163,20 @@
           "sortable": true
         }
       },
+      "attachments": {
+        "edit": {
+          "label": "attachments",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "attachments",
+          "searchable": false,
+          "sortable": false
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -207,6 +207,11 @@
       }
     },
     "layouts": {
+      "list": [
+        "fullname",
+        "email",
+        "parent"
+      ],
       "edit": [
         [
           {
@@ -238,7 +243,7 @@
         ],
         [
           {
-            "name": "certificate",
+            "name": "attachments",
             "size": 12
           }
         ]
@@ -247,10 +252,6 @@
         "runs",
         "parent",
         "children"
-      ],
-      "list": [
-        "fullname",
-        "email"
       ]
     }
   },
