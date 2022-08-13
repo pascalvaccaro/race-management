@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "runners",
+  "info": {
+    "singularName": "runner",
+    "pluralName": "runners",
+    "displayName": "Runner",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "firstname": {
+      "type": "string",
+      "required": true
+    },
+    "lastname": {
+      "type": "string",
+      "required": true
+    },
+    "blocked": {
+      "type": "boolean",
+      "default": false
+    },
+    "children": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::runner.runner",
+      "mappedBy": "parent"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::runner.runner",
+      "inversedBy": "children"
+    },
+    "runs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::run.run",
+      "mappedBy": "runner"
+    },
+    "certificate": {
+      "type": "component",
+      "repeatable": false,
+      "component": "attachments.certifificate"
+    },
+    "email": {
+      "type": "email",
+      "unique": true
+    }
+  }
+}

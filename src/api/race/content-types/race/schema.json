@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "races",
+  "info": {
+    "singularName": "race",
+    "pluralName": "races",
+    "displayName": "Race",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "startDate": {
+      "type": "date",
+      "required": true
+    },
+    "park": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::park.park",
+      "inversedBy": "races"
+    },
+    "runs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::run.run",
+      "mappedBy": "race"
+    },
+    "startTime": {
+      "type": "time",
+      "default": "10:00",
+      "required": true
+    }
+  }
+}

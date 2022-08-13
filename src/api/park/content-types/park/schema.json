@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "parks",
+  "info": {
+    "singularName": "park",
+    "pluralName": "parks",
+    "displayName": "Park"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "distance": {
+      "type": "decimal",
+      "default": 5,
+      "required": true,
+      "min": 1
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "geolocalisation": {
+      "type": "text"
+    },
+    "itinerary": {
+      "allowedTypes": [
+        "images",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "laps": {
+      "type": "decimal",
+      "required": true,
+      "min": 1
+    },
+    "gallery": {
+      "allowedTypes": [
+        "images",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "races": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::race.race",
+      "mappedBy": "park"
+    }
+  }
+}
