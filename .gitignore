@@ -94,6 +94,8 @@ logs
 results
 node_modules
 .node_history
+# For Heroku stability
+package-lock.json
 
 ############################
 # Tests
