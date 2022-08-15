@@ -1,6 +1,25 @@
+import { errors } from '@strapi/utils';
+
 export default {
-  beforeCreate(event) {
-    event.params.data.fullname = event.params.data.firstname + ' ' + event.params.data.lastname;
+  async beforeCreate(event) {
+    const { email, firstname, lastname } = event.params.data;
+    const fullname = firstname + ' ' + lastname;
+    const [exists] = await strapi.entityService.findMany('api::runner.runner', { filters: { email, fullname }});
+    if (exists) throw new errors.ValidationError('runner already exists: ' + email + ' ' + fullname);
+
+    const [parent] = await strapi.entityService.findMany('api::runner.runner', {
+      filters: { email },
+      populate: {
+        parent: { filters: { id: { $null: true }}}
+      }
+    });
+
+    if (parent) {
+      event.params.data.email = null;
+      event.params.data.parent = parent.id;
+    }
+
+    event.params.data.fullname = fullname;
   },
 
   async beforeUpdate(event) {

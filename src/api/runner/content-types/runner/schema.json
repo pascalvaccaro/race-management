@@ -44,7 +44,7 @@
     },
     "email": {
       "type": "email",
-      "unique": true
+      "unique": false
     },
     "minor": {
       "type": "boolean",
