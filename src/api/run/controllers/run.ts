@@ -8,6 +8,22 @@ import { RaceService } from "../../race/services/race";
 import { HelloAssoService } from "../services/hello-asso";
 
 export default factories.createCoreController("api::run.run", ({ strapi }) => ({
+  async create(ctx) {
+    const { data } = ctx.request.body;
+    const [exists] = await strapi.entityService.findMany("api::run.run", {
+      populate: {
+        runner: {
+          filters: { id: data.runner }
+        }
+      }
+    });
+    if (exists) {
+      const sanitizedEntity = await this.sanitizeOutput(exists, ctx);
+      return this.transformResponse(sanitizedEntity);
+    }
+    return super.create(ctx);
+  },
+
   async createFromGScript(ctx) {
     const { date } = ctx.params;
     const startDate = [date.slice(0, 4), date.slice(4, 6), date.slice(6)].join(
