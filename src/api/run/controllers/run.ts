@@ -10,19 +10,26 @@ import { HelloAssoService } from "../services/hello-asso";
 export default factories.createCoreController("api::run.run", ({ strapi }) => ({
   async create(ctx) {
     const { data } = ctx.request.body;
-    const { race, runner } = data;
-    const [exists] = await strapi.entityService.findMany("api::run.run", {
+    const { runner, race } = data;
+    if (!race || !runner)
+      return ctx.throw(400, { error: "race and runner and required" });
+
+    let [entry] = await strapi.entityService.findMany("api::run.run", {
       filters: { runner, race },
       populate: {
         runner: true,
         race: { populate: { park: true } },
       },
     });
-    if (exists) {
-      const sanitizedEntity = await this.sanitizeOutput(exists, ctx);
-      return this.transformResponse(sanitizedEntity);
+    if (!entry) {
+      entry = await strapi.entityService.create("api::run.run", {
+        data: ctx.request.body.data,
+        ...ctx.query,
+      });
     }
-    return super.create(ctx);
+
+    const sanitizedEntity = await this.sanitizeOutput(entry, ctx);
+    return this.transformResponse(sanitizedEntity);
   },
 
   async createFromGScript(ctx) {
@@ -33,15 +40,13 @@ export default factories.createCoreController("api::run.run", ({ strapi }) => ({
     const [race] = await strapi.entityService.findMany("api::race.race", {
       filters: { startDate },
     });
-    if (!race)
-      return {
-        data: null,
-        error: {
-          status: 404,
-          message: "No race found for date " + startDate,
-        },
-      };
+    if (!race) return ctx.throw(404, `No race found with date ${startDate}`);
+
     ctx.request.body.data.race = race.id;
+    delete ctx.request.body.data.firstname;
+    delete ctx.request.body.data.lastname;
+    delete ctx.request.body.data.email;
+    ctx.query.populate = ctx.query.populate || ["runner", "race", "race.park"];
     return this.create(ctx);
   },
 
