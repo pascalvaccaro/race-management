@@ -2098,7 +2098,8 @@
       "attributes": {
         "startDate": {
           "type": "date",
-          "required": true
+          "required": true,
+          "unique": true
         },
         "park": {
           "type": "relation",
@@ -2165,7 +2166,8 @@
         "attributes": {
           "startDate": {
             "type": "date",
-            "required": true
+            "required": true,
+            "unique": true
           },
           "park": {
             "type": "relation",
@@ -2372,7 +2374,7 @@
         },
         "email": {
           "type": "email",
-          "unique": true
+          "unique": false
         },
         "minor": {
           "type": "boolean",
@@ -2465,7 +2467,7 @@
           },
           "email": {
             "type": "email",
-            "unique": true
+            "unique": false
           },
           "minor": {
             "type": "boolean",

@@ -40,17 +40,18 @@ export default factories.createCoreController("api::run.run", ({ strapi }) => ({
           message: "No race found for date " + startDate,
         },
       };
-    const { numberSign } = ctx.request.body.data;
+    const { runner } = ctx.request.body.data;
     const [exists] = await strapi.entityService.findMany("api::run.run", {
-      filters: {
-        numberSign,
-      },
+      filters: { $and: [{ race }, { runner }] },
       populate: {
         race: {
           filters: {
             id: race.id,
           },
         },
+        runner: {
+          filters: { id: runner }
+        }
       },
     });
     if (exists) {

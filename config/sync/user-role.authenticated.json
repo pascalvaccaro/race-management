@@ -4,6 +4,84 @@
   "type": "authenticated",
   "permissions": [
     {
+      "action": "api::park.park.create"
+    },
+    {
+      "action": "api::park.park.delete"
+    },
+    {
+      "action": "api::park.park.find"
+    },
+    {
+      "action": "api::park.park.findOne"
+    },
+    {
+      "action": "api::park.park.update"
+    },
+    {
+      "action": "api::race.race.create"
+    },
+    {
+      "action": "api::race.race.delete"
+    },
+    {
+      "action": "api::race.race.find"
+    },
+    {
+      "action": "api::race.race.findOne"
+    },
+    {
+      "action": "api::race.race.update"
+    },
+    {
+      "action": "api::run.run.create"
+    },
+    {
+      "action": "api::run.run.createFromGScript"
+    },
+    {
+      "action": "api::run.run.delete"
+    },
+    {
+      "action": "api::run.run.find"
+    },
+    {
+      "action": "api::run.run.findOne"
+    },
+    {
+      "action": "api::run.run.register"
+    },
+    {
+      "action": "api::run.run.update"
+    },
+    {
+      "action": "api::runner.runner.create"
+    },
+    {
+      "action": "api::runner.runner.delete"
+    },
+    {
+      "action": "api::runner.runner.find"
+    },
+    {
+      "action": "api::runner.runner.findOne"
+    },
+    {
+      "action": "api::runner.runner.update"
+    },
+    {
+      "action": "plugin::upload.content-api.destroy"
+    },
+    {
+      "action": "plugin::upload.content-api.find"
+    },
+    {
+      "action": "plugin::upload.content-api.findOne"
+    },
+    {
+      "action": "plugin::upload.content-api.upload"
+    },
+    {
       "action": "plugin::users-permissions.auth.changePassword"
     },
     {

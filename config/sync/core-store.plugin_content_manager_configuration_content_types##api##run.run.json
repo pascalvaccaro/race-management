@@ -6,7 +6,7 @@
       "bulkable": true,
       "filterable": true,
       "searchable": true,
-      "pageSize": 50,
+      "pageSize": 100,
       "mainField": "numberSign",
       "defaultSortBy": "chrono",
       "defaultSortOrder": "ASC"

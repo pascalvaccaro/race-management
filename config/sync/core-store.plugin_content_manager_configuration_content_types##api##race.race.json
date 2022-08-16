@@ -8,8 +8,8 @@
       "searchable": true,
       "pageSize": 10,
       "mainField": "startDate",
-      "defaultSortBy": "id",
-      "defaultSortOrder": "ASC"
+      "defaultSortBy": "startDate",
+      "defaultSortOrder": "DESC"
     },
     "metadatas": {
       "id": {
@@ -125,9 +125,9 @@
         "runs"
       ],
       "list": [
-        "id",
         "startDate",
         "park",
+        "startTime",
         "createdAt"
       ]
     }

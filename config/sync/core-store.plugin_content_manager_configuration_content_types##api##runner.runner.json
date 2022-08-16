@@ -6,9 +6,9 @@
       "bulkable": true,
       "filterable": true,
       "searchable": true,
-      "pageSize": 50,
+      "pageSize": 100,
       "mainField": "fullname",
-      "defaultSortBy": "firstname",
+      "defaultSortBy": "fullname",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -207,11 +207,6 @@
       }
     },
     "layouts": {
-      "list": [
-        "fullname",
-        "email",
-        "parent"
-      ],
       "edit": [
         [
           {
@@ -249,6 +244,13 @@
         ]
       ],
       "editRelations": [
+        "runs",
+        "parent",
+        "children"
+      ],
+      "list": [
+        "fullname",
+        "email",
         "runs",
         "parent",
         "children"

@@ -14,7 +14,8 @@
   "attributes": {
     "startDate": {
       "type": "date",
-      "required": true
+      "required": true,
+      "unique": true
     },
     "park": {
       "type": "relation",
