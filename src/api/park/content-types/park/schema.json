@@ -4,7 +4,8 @@
   "info": {
     "singularName": "park",
     "pluralName": "parks",
-    "displayName": "Park"
+    "displayName": "Park",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -26,25 +27,27 @@
       "type": "text"
     },
     "itinerary": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "videos"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "laps": {
-      "type": "decimal",
+      "type": "float",
       "required": true,
       "min": 1
     },
     "gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "videos"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     },
     "races": {
       "type": "relation",
