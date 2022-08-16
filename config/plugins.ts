@@ -1,4 +1,8 @@
 export default ({ env }) => ({
+  "atonallure": {
+    enabled: true,
+    resolve: './src/plugins/atonallure'
+  },
   "config-sync": {
     enabled: true,
     config: {

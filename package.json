@@ -7,9 +7,12 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
+    "postbuild": "(cd src/plugins/atonallure && yarn build)",
     "strapi": "strapi"
   },
-  "devDependencies": {},
+  "workspaces":[
+    "./src/plugins/*"
+  ],
   "dependencies": {
     "@strapi/plugin-i18n": "4.3.4",
     "@strapi/plugin-users-permissions": "4.3.4",

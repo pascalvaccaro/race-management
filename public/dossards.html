@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=1240px, initial-scale=1.0" />
+    <title>Liste des participants à la course du <%= startDate %></title>
+    <style>
+      html {
+        width: 100%;
+      }
+      body {
+        width: 1240px;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+      }
+      table {
+        padding: 4px;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td,
+      th {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid black;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Prénom Nom</th>
+          <th>A faire</th>
+          <th>Tours</th>
+          <th>Chrono</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% _.forEach(runs, function(run) { %>
+        <tr>
+          <td><%= run.numberSign %></td>
+          <td style="text-align: left;"><%= run.runner.fullname %></td>
+          <td style="font-size: 12px;">-</td>
+          <td style="min-width: 2rem;">
+            <% _.forEach(Array(Math.ceil(park.laps)), function () { %>
+              <span class="lap">&#x2610;</span>
+            <% }); %>
+          </td>
+          <td style="width: 80px;"></td>
+          <td style="width: 30%;"></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <script type="text/javascript" nonce="closeafterprint">
+      window.focus();
+      window.print();
+
+      function onAfterPrint() {
+        parent.postMessage('done', '*');
+        window.close();
+      }
+      window.addEventListener('afterprint', onAfterPrint, { once: true });
+    </script>
+  </body>
+</html>
