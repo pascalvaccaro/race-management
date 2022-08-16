@@ -10,12 +10,13 @@ import { HelloAssoService } from "../services/hello-asso";
 export default factories.createCoreController("api::run.run", ({ strapi }) => ({
   async create(ctx) {
     const { data } = ctx.request.body;
+    const { race, runner } = data;
     const [exists] = await strapi.entityService.findMany("api::run.run", {
+      filters: { runner, race },
       populate: {
-        runner: {
-          filters: { id: data.runner }
-        }
-      }
+        runner: true,
+        race: { populate: { park: true } },
+      },
     });
     if (exists) {
       const sanitizedEntity = await this.sanitizeOutput(exists, ctx);
@@ -40,32 +41,8 @@ export default factories.createCoreController("api::run.run", ({ strapi }) => ({
           message: "No race found for date " + startDate,
         },
       };
-    const { runner } = ctx.request.body.data;
-    const [exists] = await strapi.entityService.findMany("api::run.run", {
-      filters: { $and: [{ race }, { runner }] },
-      populate: {
-        race: {
-          filters: {
-            id: race.id,
-          },
-        },
-        runner: {
-          filters: { id: runner }
-        }
-      },
-    });
-    if (exists) {
-      const sanitized = await this.sanitizeOutput(exists, ctx);
-      return this.transformResponse(sanitized);
-    }
-
     ctx.request.body.data.race = race.id;
-    const run = await strapi.entityService.create(
-      "api::run.run",
-      ctx.request.body
-    );
-    const response = await this.sanitizeOutput(run, ctx);
-    return this.transformResponse(response);
+    return this.create(ctx);
   },
 
   async register(ctx) {
