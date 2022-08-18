@@ -13,14 +13,15 @@ import {
   PasswordAttribute,
   BooleanAttribute,
   EnumerationAttribute,
-  IntegerAttribute,
   DecimalAttribute,
   SetMinMax,
   TextAttribute,
   MediaAttribute,
+  FloatAttribute,
   DateAttribute,
   TimeAttribute,
-  ComponentAttribute,
+  IntegerAttribute,
+  UIDAttribute,
   ComponentSchema,
 } from '@strapi/strapi';
 
@@ -220,16 +221,158 @@ export interface AdminApiToken extends CollectionTypeSchema {
   };
 }
 
+export interface ApiParkPark extends CollectionTypeSchema {
+  info: {
+    singularName: 'park';
+    pluralName: 'parks';
+    displayName: 'Park';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    distance: DecimalAttribute &
+      RequiredAttribute &
+      SetMinMax<{
+        min: 1;
+      }> &
+      DefaultTo<5>;
+    name: StringAttribute & RequiredAttribute & UniqueAttribute;
+    geolocalisation: TextAttribute;
+    itinerary: MediaAttribute;
+    laps: FloatAttribute &
+      RequiredAttribute &
+      SetMinMax<{
+        min: 1;
+      }>;
+    gallery: MediaAttribute;
+    races: RelationAttribute<'api::park.park', 'oneToMany', 'api::race.race'>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<'api::park.park', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<'api::park.park', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiRaceRace extends CollectionTypeSchema {
+  info: {
+    singularName: 'race';
+    pluralName: 'races';
+    displayName: 'Race';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    startDate: DateAttribute & RequiredAttribute & UniqueAttribute;
+    park: RelationAttribute<'api::race.race', 'manyToOne', 'api::park.park'>;
+    runs: RelationAttribute<'api::race.race', 'oneToMany', 'api::run.run'>;
+    startTime: TimeAttribute & RequiredAttribute & DefaultTo<'10:00'>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<'api::race.race', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<'api::race.race', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiRunRun extends CollectionTypeSchema {
+  info: {
+    singularName: 'run';
+    pluralName: 'runs';
+    displayName: 'Run';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    chrono: TimeAttribute & DefaultTo<'00:00'>;
+    numberSign: IntegerAttribute &
+      SetMinMax<{
+        min: 1;
+        max: 100;
+      }>;
+    walking: BooleanAttribute & DefaultTo<false>;
+    copyright: BooleanAttribute & DefaultTo<true>;
+    runner: RelationAttribute<
+      'api::run.run',
+      'manyToOne',
+      'api::runner.runner'
+    >;
+    dropped: BooleanAttribute & DefaultTo<false>;
+    race: RelationAttribute<'api::run.run', 'manyToOne', 'api::race.race'>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<'api::run.run', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<'api::run.run', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiRunnerRunner extends CollectionTypeSchema {
+  info: {
+    singularName: 'runner';
+    pluralName: 'runners';
+    displayName: 'Runner';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    firstname: StringAttribute & RequiredAttribute;
+    lastname: StringAttribute & RequiredAttribute;
+    blocked: BooleanAttribute & DefaultTo<false>;
+    children: RelationAttribute<
+      'api::runner.runner',
+      'oneToMany',
+      'api::runner.runner'
+    >;
+    parent: RelationAttribute<
+      'api::runner.runner',
+      'manyToOne',
+      'api::runner.runner'
+    >;
+    runs: RelationAttribute<'api::runner.runner', 'oneToMany', 'api::run.run'>;
+    email: EmailAttribute;
+    minor: BooleanAttribute & DefaultTo<false>;
+    child: BooleanAttribute & DefaultTo<false>;
+    fullname: StringAttribute & UniqueAttribute;
+    attachments: MediaAttribute;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::runner.runner',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::runner.runner',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
 export interface PluginUploadFile extends CollectionTypeSchema {
   info: {
     singularName: 'file';
     pluralName: 'files';
-    displayName: 'File';
+    displayName: 'Media';
     description: '';
   };
   pluginOptions: {
     'content-manager': {
-      visible: false;
+      visible: true;
     };
     'content-type-builder': {
       visible: false;
@@ -239,6 +382,8 @@ export interface PluginUploadFile extends CollectionTypeSchema {
     name: StringAttribute & RequiredAttribute;
     alternativeText: StringAttribute;
     caption: StringAttribute;
+    credits: StringAttribute;
+    specialUses: StringAttribute;
     width: IntegerAttribute;
     height: IntegerAttribute;
     formats: JSONAttribute;
@@ -263,6 +408,8 @@ export interface PluginUploadFile extends CollectionTypeSchema {
       SetMinMax<{
         min: 1;
       }>;
+    valid: BooleanAttribute;
+    expiredAt: DateAttribute;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -331,6 +478,49 @@ export interface PluginUploadFolder extends CollectionTypeSchema {
       PrivateAttribute;
     updatedBy: RelationAttribute<
       'plugin::upload.folder',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface PluginI18NLocale extends CollectionTypeSchema {
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: StringAttribute &
+      SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: StringAttribute & UniqueAttribute;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'plugin::i18n.locale',
       'oneToOne',
       'admin::user'
     > &
@@ -485,13 +675,15 @@ export interface PluginUsersPermissionsUser extends CollectionTypeSchema {
   };
 }
 
-export interface PluginI18NLocale extends CollectionTypeSchema {
+export interface PluginStrapiStripeStrapiStripeProduct
+  extends CollectionTypeSchema {
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
+    tableName: 'StrapiStripeProduct';
+    singularName: 'strapi-stripe-product';
+    pluralName: 'strapi-stripe-products';
+    displayName: 'Product';
+    description: 'Stripe Products';
+    kind: 'collectionType';
   };
   options: {
     draftAndPublish: false;
@@ -505,160 +697,57 @@ export interface PluginI18NLocale extends CollectionTypeSchema {
     };
   };
   attributes: {
-    name: StringAttribute &
-      SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: StringAttribute & UniqueAttribute;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiParkPark extends CollectionTypeSchema {
-  info: {
-    singularName: 'park';
-    pluralName: 'parks';
-    displayName: 'Park';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    distance: DecimalAttribute &
-      RequiredAttribute &
-      SetMinMax<{
-        min: 1;
-      }> &
-      DefaultTo<5>;
-    name: StringAttribute & RequiredAttribute & UniqueAttribute;
-    geolocalisation: TextAttribute;
-    itinerary: MediaAttribute;
-    laps: DecimalAttribute &
+    title: StringAttribute &
       RequiredAttribute &
       SetMinMax<{
         min: 1;
       }>;
-    gallery: MediaAttribute;
-    races: RelationAttribute<'api::park.park', 'oneToMany', 'api::race.race'>;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<'api::park.park', 'oneToOne', 'admin::user'> &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<'api::park.park', 'oneToOne', 'admin::user'> &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiRaceRace extends CollectionTypeSchema {
-  info: {
-    singularName: 'race';
-    pluralName: 'races';
-    displayName: 'Race';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    startDate: DateAttribute & RequiredAttribute;
-    park: RelationAttribute<'api::race.race', 'manyToOne', 'api::park.park'>;
-    runs: RelationAttribute<'api::race.race', 'oneToMany', 'api::run.run'>;
-    startTime: TimeAttribute & RequiredAttribute & DefaultTo<'10:00'>;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    publishedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<'api::race.race', 'oneToOne', 'admin::user'> &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<'api::race.race', 'oneToOne', 'admin::user'> &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiRunRun extends CollectionTypeSchema {
-  info: {
-    singularName: 'run';
-    pluralName: 'runs';
-    displayName: 'Run';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    chrono: TimeAttribute & DefaultTo<'00:00'>;
-    numberSign: IntegerAttribute &
+    slug: UIDAttribute<'plugin::strapi-stripe.strapi-stripe-product', 'title'> &
+      RequiredAttribute &
+      UniqueAttribute;
+    description: StringAttribute &
+      RequiredAttribute &
       SetMinMax<{
         min: 1;
-        max: 100;
       }>;
-    walking: BooleanAttribute & DefaultTo<false>;
-    copyright: BooleanAttribute & DefaultTo<true>;
-    runner: RelationAttribute<
-      'api::run.run',
-      'manyToOne',
-      'api::runner.runner'
-    >;
-    dropped: BooleanAttribute & DefaultTo<false>;
-    race: RelationAttribute<'api::run.run', 'manyToOne', 'api::race.race'>;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<'api::run.run', 'oneToOne', 'admin::user'> &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<'api::run.run', 'oneToOne', 'admin::user'> &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiRunnerRunner extends CollectionTypeSchema {
-  info: {
-    singularName: 'runner';
-    pluralName: 'runners';
-    displayName: 'Runner';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    firstname: StringAttribute & RequiredAttribute;
-    lastname: StringAttribute & RequiredAttribute;
-    blocked: BooleanAttribute & DefaultTo<false>;
-    children: RelationAttribute<
-      'api::runner.runner',
+    price: DecimalAttribute & RequiredAttribute;
+    currency: StringAttribute &
+      RequiredAttribute &
+      SetMinMax<{
+        min: 1;
+      }>;
+    productImage: MediaAttribute & RequiredAttribute;
+    isSubscription: BooleanAttribute & DefaultTo<false>;
+    interval: StringAttribute;
+    trialPeriodDays: IntegerAttribute;
+    stripeProductId: StringAttribute &
+      RequiredAttribute &
+      SetMinMax<{
+        min: 3;
+      }>;
+    stripePriceId: StringAttribute &
+      SetMinMax<{
+        min: 3;
+      }>;
+    stripePlanId: StringAttribute &
+      SetMinMax<{
+        min: 3;
+      }>;
+    stripePayment: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-product',
       'oneToMany',
-      'api::runner.runner'
+      'plugin::strapi-stripe.strapi-stripe-payment'
     >;
-    parent: RelationAttribute<
-      'api::runner.runner',
-      'manyToOne',
-      'api::runner.runner'
-    >;
-    runs: RelationAttribute<'api::runner.runner', 'oneToMany', 'api::run.run'>;
-    certificate: ComponentAttribute<'attachments.certifificate'>;
-    email: EmailAttribute & UniqueAttribute;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
-      'api::runner.runner',
+      'plugin::strapi-stripe.strapi-stripe-product',
       'oneToOne',
       'admin::user'
     > &
       PrivateAttribute;
     updatedBy: RelationAttribute<
-      'api::runner.runner',
+      'plugin::strapi-stripe.strapi-stripe-product',
       'oneToOne',
       'admin::user'
     > &
@@ -666,21 +755,92 @@ export interface ApiRunnerRunner extends CollectionTypeSchema {
   };
 }
 
-export interface AttachmentsCertifificate extends ComponentSchema {
+export interface PluginStrapiStripeStrapiStripePayment
+  extends CollectionTypeSchema {
   info: {
-    displayName: 'Certifificate';
-    icon: 'file-medical';
+    tableName: 'StrapiStripePayment';
+    singularName: 'strapi-stripe-payment';
+    pluralName: 'strapi-stripe-payments';
+    displayName: 'Payment';
+    description: 'Stripe Payment';
+    kind: 'collectionType';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
   };
   attributes: {
-    expiry: DateAttribute;
-    file: MediaAttribute & RequiredAttribute;
-    valid: BooleanAttribute;
+    txnDate: DateTimeAttribute & RequiredAttribute;
+    transactionId: StringAttribute &
+      RequiredAttribute &
+      SetMinMaxLength<{
+        maxLength: 250;
+      }>;
+    isTxnSuccessful: BooleanAttribute & DefaultTo<false>;
+    txnMessage: StringAttribute &
+      SetMinMaxLength<{
+        maxLength: 5000;
+      }>;
+    txnErrorMessage: StringAttribute &
+      SetMinMaxLength<{
+        maxLength: 250;
+      }>;
+    txnAmount: DecimalAttribute & RequiredAttribute;
+    customerName: StringAttribute & RequiredAttribute;
+    customerEmail: StringAttribute & RequiredAttribute;
+    stripeProduct: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-payment',
+      'manyToOne',
+      'plugin::strapi-stripe.strapi-stripe-product'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-payment',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-payment',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
   };
 }
 
-export type GetModel<T extends Schema> = {
-  id: number;
-} & T["attributes"];
+export interface AttachmentsAuthorization extends ComponentSchema {
+  info: {
+    displayName: 'Authorization';
+    icon: 'user-check';
+    description: '';
+  };
+  attributes: {
+    file: MediaAttribute & RequiredAttribute;
+    valid: BooleanAttribute & DefaultTo<false>;
+  };
+}
+
+export interface AttachmentsCertificate extends ComponentSchema {
+  info: {
+    displayName: 'Certificate';
+    icon: 'file-medical';
+    description: '';
+  };
+  attributes: {
+    file: MediaAttribute & RequiredAttribute;
+    expiry: DateAttribute;
+    valid: BooleanAttribute & DefaultTo<false>;
+  };
+}
 
 declare global {
   namespace Strapi {
@@ -689,17 +849,24 @@ declare global {
       'admin::user': AdminUser;
       'admin::role': AdminRole;
       'admin::api-token': AdminApiToken;
-      'plugin::upload.file': PluginUploadFile;
-      'plugin::upload.folder': PluginUploadFolder;
-      'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
-      'plugin::users-permissions.role': PluginUsersPermissionsRole;
-      'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::park.park': ApiParkPark;
       'api::race.race': ApiRaceRace;
       'api::run.run': ApiRunRun;
       'api::runner.runner': ApiRunnerRunner;
-      'attachments.certifificate': AttachmentsCertifificate;
+      'plugin::upload.file': PluginUploadFile;
+      'plugin::upload.folder': PluginUploadFolder;
+      'plugin::i18n.locale': PluginI18NLocale;
+      'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
+      'plugin::users-permissions.role': PluginUsersPermissionsRole;
+      'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'plugin::strapi-stripe.strapi-stripe-product': PluginStrapiStripeStrapiStripeProduct;
+      'plugin::strapi-stripe.strapi-stripe-payment': PluginStrapiStripeStrapiStripePayment;
+      'attachments.authorization': AttachmentsAuthorization;
+      'attachments.certificate': AttachmentsCertificate;
     }
   }
 }
+
+export type GetModel<T extends Schema> = {
+  id: number;
+} & T["attributes"];

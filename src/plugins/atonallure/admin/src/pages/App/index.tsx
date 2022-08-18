@@ -10,12 +10,14 @@ import { Switch, Route } from 'react-router-dom';
 import { NotFound } from '@strapi/helper-plugin';
 import pluginId from '../../pluginId';
 import HomePage from '../HomePage';
+import ValidatorPage from '../ValidatorPage';
 
-const App: React.VoidFunctionComponent = () => {
+const App: React.FC = () => {
   return (
     <div>
       <Switch>
         <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
+        <Route path={`/plugins/${pluginId}/validator`} component={ValidatorPage} exact />
         <Route component={NotFound} />
       </Switch>
     </div>
