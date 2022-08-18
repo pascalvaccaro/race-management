@@ -1,1 +1,4 @@
-{}
+{
+  "file.actions.valid": "Valider",
+  "file.actions.invalid": "Rejeter"
+}

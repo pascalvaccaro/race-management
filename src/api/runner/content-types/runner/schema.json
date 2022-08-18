@@ -59,11 +59,12 @@
       "unique": true
     },
     "attachments": {
-      "type": "dynamiczone",
-      "components": [
-        "attachments.authorization",
-        "attachments.certificate"
-      ]
+      "allowedTypes": [
+        "images",
+        "files"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }
