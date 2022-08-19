@@ -4,7 +4,8 @@
   "info": {
     "singularName": "run",
     "pluralName": "runs",
-    "displayName": "Run"
+    "displayName": "Run",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -12,8 +13,8 @@
   "pluginOptions": {},
   "attributes": {
     "chrono": {
-      "type": "time",
-      "default": "00:00"
+      "type": "string",
+      "regex": "^(?:\\d{2}:)*?[0-5]\\d:[0-2]\\d\\.\\d{3}$"
     },
     "numberSign": {
       "type": "integer",

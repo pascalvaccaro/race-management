@@ -10,12 +10,16 @@ import { HelloAssoService } from "../services/hello-asso";
 export default factories.createCoreController("api::run.run", ({ strapi }) => ({
   async create(ctx) {
     const { data } = ctx.request.body;
-    const { runner, race } = data;
-    if (!race || !runner)
-      return ctx.throw(400, { error: "race and runner and required" });
+    const { runner, race, numberSign } = data;
+    if (!race) return ctx.badRequest("race is required");
+    if (!runner && !numberSign) return ctx.badRequest("runner or numberSign is required");
 
     let [entry] = await strapi.entityService.findMany("api::run.run", {
-      filters: { runner, race },
+      filters: {
+        ...(runner ? { runner } : {}),
+        ...(numberSign ? { numberSign } : {}),
+        race,
+      },
       populate: {
         runner: true,
         race: { populate: { park: true } },
