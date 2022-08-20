@@ -3,6 +3,7 @@
  */
 
 import { factories } from "@strapi/strapi";
+import QRCode from 'qrcode';
 import { ApiRunRun, GetModel } from "../../../../schemas";
 import { RaceService } from "../../race/services/race";
 import { HelloAssoService } from "../services/hello-asso";
@@ -72,4 +73,21 @@ export default factories.createCoreController("api::run.run", ({ strapi }) => ({
     const sanitized = this.sanitizeOutput(runs, ctx);
     return this.transformResponse(sanitized);
   },
+
+  async generateQRCode(ctx) {
+    const { id } = ctx.params;
+    const run = await strapi.entityService.findOne("api::run.run", id, {
+      populate: ["race", "runner"],
+    });
+    if (!run) return ctx.notFound('no run found with id ' + id);
+
+    const body = JSON.stringify({
+      id,
+      race: { id: run.race.id },
+      runner: { id: run.runner.id },
+    });
+    const buffer = await QRCode.toBuffer(body, { width: 250 });
+    ctx.set('Content-Type', 'image/png');
+    ctx.send(buffer);
+  }
 }));

@@ -10,7 +10,7 @@
     "postbuild": "(cd src/plugins/atonallure && yarn build)",
     "strapi": "strapi"
   },
-  "workspaces":[
+  "workspaces": [
     "./src/plugins/*"
   ],
   "dependencies": {
@@ -21,8 +21,10 @@
     "@strapi/provider-upload-local": "^4.3.4",
     "@strapi/strapi": "4.3.4",
     "better-sqlite3": "7.4.6",
+    "dayjs": "^1.11.5",
     "pg": "^8.7.3",
     "pg-connection-string": "^2.5.0",
+    "qrcode": "^1.5.1",
     "strapi-plugin-config-sync": "^1.0.3",
     "strapi-stripe": "^2.4.1"
   },
@@ -36,5 +38,8 @@
     "node": ">=12.x.x <=16.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/qrcode": "^1.5.0"
+  }
 }
