@@ -245,6 +245,34 @@
           "sortable": true
         }
       },
+      "valid": {
+        "edit": {
+          "label": "valid",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "valid",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "expiredAt": {
+        "edit": {
+          "label": "expiredAt",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "expiredAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -280,9 +308,6 @@
         "name",
         "alternativeText",
         "caption"
-      ],
-      "editRelations": [
-        "folder"
       ],
       "edit": [
         [
@@ -364,7 +389,22 @@
             "name": "folderPath",
             "size": 6
           }
+        ],
+        [
+          {
+            "name": "valid",
+            "size": 4
+          }
+        ],
+        [
+          {
+            "name": "expiredAt",
+            "size": 4
+          }
         ]
+      ],
+      "editRelations": [
+        "folder"
       ]
     }
   },

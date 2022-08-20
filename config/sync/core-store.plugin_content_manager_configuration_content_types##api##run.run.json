@@ -8,7 +8,7 @@
       "searchable": true,
       "pageSize": 100,
       "mainField": "numberSign",
-      "defaultSortBy": "chrono",
+      "defaultSortBy": "id",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -16,20 +16,6 @@
         "edit": {},
         "list": {
           "label": "id",
-          "searchable": true,
-          "sortable": true
-        }
-      },
-      "chrono": {
-        "edit": {
-          "label": "chrono",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "chrono",
           "searchable": true,
           "sortable": true
         }
@@ -120,6 +106,20 @@
           "sortable": true
         }
       },
+      "chrono": {
+        "edit": {
+          "label": "chrono",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "chrono",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -150,14 +150,16 @@
       }
     },
     "layouts": {
+      "list": [
+        "race",
+        "numberSign",
+        "runner",
+        "walking"
+      ],
       "edit": [
         [
           {
             "name": "numberSign",
-            "size": 4
-          },
-          {
-            "name": "chrono",
             "size": 4
           }
         ],
@@ -174,18 +176,17 @@
             "name": "dropped",
             "size": 4
           }
+        ],
+        [
+          {
+            "name": "chrono",
+            "size": 6
+          }
         ]
       ],
       "editRelations": [
         "runner",
         "race"
-      ],
-      "list": [
-        "race",
-        "numberSign",
-        "runner",
-        "chrono",
-        "walking"
       ]
     }
   },

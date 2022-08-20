@@ -56,7 +56,7 @@
           "placeholder": "",
           "visible": true,
           "editable": true,
-          "mainField": "id"
+          "mainField": "numberSign"
         },
         "list": {
           "label": "runs",

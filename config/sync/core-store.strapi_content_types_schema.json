@@ -634,13 +634,13 @@
       "info": {
         "singularName": "file",
         "pluralName": "files",
-        "displayName": "File",
+        "displayName": "Media",
         "description": ""
       },
       "options": {},
       "pluginOptions": {
         "content-manager": {
-          "visible": false
+          "visible": true
         },
         "content-type-builder": {
           "visible": false
@@ -727,6 +727,12 @@
           "required": true,
           "private": true
         },
+        "valid": {
+          "type": "boolean"
+        },
+        "expiredAt": {
+          "type": "datetime"
+        },
         "createdAt": {
           "type": "datetime"
         },
@@ -763,19 +769,20 @@
           "type": null
         }
       ],
+      "__filename__": "schema.json",
       "kind": "collectionType",
       "__schema__": {
         "collectionName": "files",
         "info": {
           "singularName": "file",
           "pluralName": "files",
-          "displayName": "File",
+          "displayName": "Media",
           "description": ""
         },
         "options": {},
         "pluginOptions": {
           "content-manager": {
-            "visible": false
+            "visible": true
           },
           "content-type-builder": {
             "visible": false
@@ -861,6 +868,12 @@
             "min": 1,
             "required": true,
             "private": true
+          },
+          "valid": {
+            "type": "boolean"
+          },
+          "expiredAt": {
+            "type": "datetime"
           }
         },
         "kind": "collectionType"
@@ -870,7 +883,8 @@
       "connection": "default",
       "uid": "plugin::upload.file",
       "plugin": "upload",
-      "globalId": "UploadFile"
+      "globalId": "UploadFile",
+      "lifecycles": {}
     },
     "plugin::upload.folder": {
       "collectionName": "upload_folders",
@@ -1942,7 +1956,8 @@
       "info": {
         "singularName": "park",
         "pluralName": "parks",
-        "displayName": "Park"
+        "displayName": "Park",
+        "description": ""
       },
       "options": {
         "draftAndPublish": false
@@ -1964,25 +1979,27 @@
           "type": "text"
         },
         "itinerary": {
+          "type": "media",
+          "multiple": false,
+          "required": false,
           "allowedTypes": [
             "images",
             "videos"
-          ],
-          "type": "media",
-          "multiple": false
+          ]
         },
         "laps": {
-          "type": "decimal",
+          "type": "float",
           "required": true,
           "min": 1
         },
         "gallery": {
+          "type": "media",
+          "multiple": true,
+          "required": false,
           "allowedTypes": [
             "images",
             "videos"
-          ],
-          "type": "media",
-          "multiple": true
+          ]
         },
         "races": {
           "type": "relation",
@@ -2022,7 +2039,8 @@
         "info": {
           "singularName": "park",
           "pluralName": "parks",
-          "displayName": "Park"
+          "displayName": "Park",
+          "description": ""
         },
         "options": {
           "draftAndPublish": false
@@ -2044,25 +2062,27 @@
             "type": "text"
           },
           "itinerary": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
             "allowedTypes": [
               "images",
               "videos"
-            ],
-            "type": "media",
-            "multiple": false
+            ]
           },
           "laps": {
-            "type": "decimal",
+            "type": "float",
             "required": true,
             "min": 1
           },
           "gallery": {
+            "type": "media",
+            "multiple": true,
+            "required": false,
             "allowedTypes": [
               "images",
               "videos"
-            ],
-            "type": "media",
-            "multiple": true
+            ]
           },
           "races": {
             "type": "relation",
@@ -2204,7 +2224,8 @@
       "info": {
         "singularName": "run",
         "pluralName": "runs",
-        "displayName": "Run"
+        "displayName": "Run",
+        "description": ""
       },
       "options": {
         "draftAndPublish": false
@@ -2212,8 +2233,8 @@
       "pluginOptions": {},
       "attributes": {
         "chrono": {
-          "type": "time",
-          "default": "00:00"
+          "type": "string",
+          "regex": "^(?:\\d{2}:)*?[0-5]\\d:[0-2]\\d\\.\\d{3}$"
         },
         "numberSign": {
           "type": "integer",
@@ -2276,7 +2297,8 @@
         "info": {
           "singularName": "run",
           "pluralName": "runs",
-          "displayName": "Run"
+          "displayName": "Run",
+          "description": ""
         },
         "options": {
           "draftAndPublish": false
@@ -2284,8 +2306,8 @@
         "pluginOptions": {},
         "attributes": {
           "chrono": {
-            "type": "time",
-            "default": "00:00"
+            "type": "string",
+            "regex": "^(?:\\d{2}:)*?[0-5]\\d:[0-2]\\d\\.\\d{3}$"
           },
           "numberSign": {
             "type": "integer",
@@ -2389,11 +2411,12 @@
           "unique": true
         },
         "attachments": {
-          "type": "dynamiczone",
-          "components": [
-            "attachments.authorization",
-            "attachments.certificate"
-          ]
+          "allowedTypes": [
+            "images",
+            "files"
+          ],
+          "type": "media",
+          "multiple": true
         },
         "createdAt": {
           "type": "datetime"
@@ -2482,11 +2505,12 @@
             "unique": true
           },
           "attachments": {
-            "type": "dynamiczone",
-            "components": [
-              "attachments.authorization",
-              "attachments.certificate"
-            ]
+            "allowedTypes": [
+              "images",
+              "files"
+            ],
+            "type": "media",
+            "multiple": true
           }
         },
         "kind": "collectionType"

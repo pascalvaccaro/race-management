@@ -207,6 +207,13 @@
       }
     },
     "layouts": {
+      "list": [
+        "fullname",
+        "email",
+        "runs",
+        "parent",
+        "children"
+      ],
       "edit": [
         [
           {
@@ -239,18 +246,11 @@
         [
           {
             "name": "attachments",
-            "size": 12
+            "size": 6
           }
         ]
       ],
       "editRelations": [
-        "runs",
-        "parent",
-        "children"
-      ],
-      "list": [
-        "fullname",
-        "email",
         "runs",
         "parent",
         "children"

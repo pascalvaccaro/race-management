@@ -23,7 +23,7 @@ export default {
         result.runner.id
       }.png`;
 
-      await strapi.plugins["email"].services.email.send({
+      strapi.plugins["email"].services.email.send({
         to: result.runner.email,
         from: "A Ton Allure <atonallure@gmail.com>",
         subject: `Ton inscription à la course du ${startDate.format(
@@ -51,7 +51,7 @@ export default {
             disposition: "attachment",
           },
         ],
-      });
+      }).catch(err => strapi.log.error(err.message));
     } catch (err) {
       strapi.log.error(err.message);
     }
