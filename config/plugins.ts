@@ -12,4 +12,8 @@ export default ({ env }) => ({
       ],
     },
   },
+  'strapi-stripe': {
+    enabled: true,
+    resolve: "./src/plugins/stripe",
+  },
 });

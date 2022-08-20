@@ -287,12 +287,13 @@ export interface ApiRunRun extends CollectionTypeSchema {
     singularName: 'run';
     pluralName: 'runs';
     displayName: 'Run';
+    description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    chrono: TimeAttribute & DefaultTo<'00:00'>;
+    chrono: StringAttribute;
     numberSign: IntegerAttribute &
       SetMinMax<{
         min: 1;
@@ -382,8 +383,6 @@ export interface PluginUploadFile extends CollectionTypeSchema {
     name: StringAttribute & RequiredAttribute;
     alternativeText: StringAttribute;
     caption: StringAttribute;
-    credits: StringAttribute;
-    specialUses: StringAttribute;
     width: IntegerAttribute;
     height: IntegerAttribute;
     formats: JSONAttribute;
@@ -409,7 +408,7 @@ export interface PluginUploadFile extends CollectionTypeSchema {
         min: 1;
       }>;
     valid: BooleanAttribute;
-    expiredAt: DateAttribute;
+    expiredAt: DateTimeAttribute;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -478,6 +477,148 @@ export interface PluginUploadFolder extends CollectionTypeSchema {
       PrivateAttribute;
     updatedBy: RelationAttribute<
       'plugin::upload.folder',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface PluginStrapiStripeStrapiStripeProduct
+  extends CollectionTypeSchema {
+  info: {
+    tableName: 'StrapiStripeProduct';
+    singularName: 'strapi-stripe-product';
+    pluralName: 'strapi-stripe-products';
+    displayName: 'Product';
+    description: 'Stripe Products';
+    kind: 'collectionType';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    title: StringAttribute &
+      RequiredAttribute &
+      SetMinMax<{
+        min: 1;
+      }>;
+    slug: UIDAttribute<'plugin::strapi-stripe.strapi-stripe-product', 'title'> &
+      RequiredAttribute &
+      UniqueAttribute;
+    description: StringAttribute &
+      RequiredAttribute &
+      SetMinMax<{
+        min: 1;
+      }>;
+    price: DecimalAttribute & RequiredAttribute;
+    currency: StringAttribute &
+      RequiredAttribute &
+      SetMinMax<{
+        min: 1;
+      }>;
+    productImage: MediaAttribute & RequiredAttribute;
+    isSubscription: BooleanAttribute & DefaultTo<false>;
+    interval: StringAttribute;
+    trialPeriodDays: IntegerAttribute;
+    stripeProductId: StringAttribute &
+      RequiredAttribute &
+      SetMinMax<{
+        min: 3;
+      }>;
+    stripePriceId: StringAttribute &
+      SetMinMax<{
+        min: 3;
+      }>;
+    stripePlanId: StringAttribute &
+      SetMinMax<{
+        min: 3;
+      }>;
+    stripePayment: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-product',
+      'oneToMany',
+      'plugin::strapi-stripe.strapi-stripe-payment'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-product',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-product',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface PluginStrapiStripeStrapiStripePayment
+  extends CollectionTypeSchema {
+  info: {
+    tableName: 'StrapiStripePayment';
+    singularName: 'strapi-stripe-payment';
+    pluralName: 'strapi-stripe-payments';
+    displayName: 'Payment';
+    description: 'Stripe Payment';
+    kind: 'collectionType';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    txnDate: DateTimeAttribute & RequiredAttribute;
+    transactionId: StringAttribute &
+      RequiredAttribute &
+      SetMinMaxLength<{
+        maxLength: 250;
+      }>;
+    isTxnSuccessful: BooleanAttribute & DefaultTo<false>;
+    txnMessage: StringAttribute &
+      SetMinMaxLength<{
+        maxLength: 5000;
+      }>;
+    txnErrorMessage: StringAttribute &
+      SetMinMaxLength<{
+        maxLength: 250;
+      }>;
+    txnAmount: DecimalAttribute & RequiredAttribute;
+    customerName: StringAttribute & RequiredAttribute;
+    customerEmail: StringAttribute & RequiredAttribute;
+    stripeProduct: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-payment',
+      'manyToOne',
+      'plugin::strapi-stripe.strapi-stripe-product'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-payment',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'plugin::strapi-stripe.strapi-stripe-payment',
       'oneToOne',
       'admin::user'
     > &
@@ -675,148 +816,6 @@ export interface PluginUsersPermissionsUser extends CollectionTypeSchema {
   };
 }
 
-export interface PluginStrapiStripeStrapiStripeProduct
-  extends CollectionTypeSchema {
-  info: {
-    tableName: 'StrapiStripeProduct';
-    singularName: 'strapi-stripe-product';
-    pluralName: 'strapi-stripe-products';
-    displayName: 'Product';
-    description: 'Stripe Products';
-    kind: 'collectionType';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    title: StringAttribute &
-      RequiredAttribute &
-      SetMinMax<{
-        min: 1;
-      }>;
-    slug: UIDAttribute<'plugin::strapi-stripe.strapi-stripe-product', 'title'> &
-      RequiredAttribute &
-      UniqueAttribute;
-    description: StringAttribute &
-      RequiredAttribute &
-      SetMinMax<{
-        min: 1;
-      }>;
-    price: DecimalAttribute & RequiredAttribute;
-    currency: StringAttribute &
-      RequiredAttribute &
-      SetMinMax<{
-        min: 1;
-      }>;
-    productImage: MediaAttribute & RequiredAttribute;
-    isSubscription: BooleanAttribute & DefaultTo<false>;
-    interval: StringAttribute;
-    trialPeriodDays: IntegerAttribute;
-    stripeProductId: StringAttribute &
-      RequiredAttribute &
-      SetMinMax<{
-        min: 3;
-      }>;
-    stripePriceId: StringAttribute &
-      SetMinMax<{
-        min: 3;
-      }>;
-    stripePlanId: StringAttribute &
-      SetMinMax<{
-        min: 3;
-      }>;
-    stripePayment: RelationAttribute<
-      'plugin::strapi-stripe.strapi-stripe-product',
-      'oneToMany',
-      'plugin::strapi-stripe.strapi-stripe-payment'
-    >;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'plugin::strapi-stripe.strapi-stripe-product',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'plugin::strapi-stripe.strapi-stripe-product',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
-export interface PluginStrapiStripeStrapiStripePayment
-  extends CollectionTypeSchema {
-  info: {
-    tableName: 'StrapiStripePayment';
-    singularName: 'strapi-stripe-payment';
-    pluralName: 'strapi-stripe-payments';
-    displayName: 'Payment';
-    description: 'Stripe Payment';
-    kind: 'collectionType';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    txnDate: DateTimeAttribute & RequiredAttribute;
-    transactionId: StringAttribute &
-      RequiredAttribute &
-      SetMinMaxLength<{
-        maxLength: 250;
-      }>;
-    isTxnSuccessful: BooleanAttribute & DefaultTo<false>;
-    txnMessage: StringAttribute &
-      SetMinMaxLength<{
-        maxLength: 5000;
-      }>;
-    txnErrorMessage: StringAttribute &
-      SetMinMaxLength<{
-        maxLength: 250;
-      }>;
-    txnAmount: DecimalAttribute & RequiredAttribute;
-    customerName: StringAttribute & RequiredAttribute;
-    customerEmail: StringAttribute & RequiredAttribute;
-    stripeProduct: RelationAttribute<
-      'plugin::strapi-stripe.strapi-stripe-payment',
-      'manyToOne',
-      'plugin::strapi-stripe.strapi-stripe-product'
-    >;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'plugin::strapi-stripe.strapi-stripe-payment',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'plugin::strapi-stripe.strapi-stripe-payment',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
 export interface AttachmentsAuthorization extends ComponentSchema {
   info: {
     displayName: 'Authorization';
@@ -855,12 +854,12 @@ declare global {
       'api::runner.runner': ApiRunnerRunner;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::strapi-stripe.strapi-stripe-product': PluginStrapiStripeStrapiStripeProduct;
+      'plugin::strapi-stripe.strapi-stripe-payment': PluginStrapiStripeStrapiStripePayment;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::strapi-stripe.strapi-stripe-product': PluginStrapiStripeStrapiStripeProduct;
-      'plugin::strapi-stripe.strapi-stripe-payment': PluginStrapiStripeStrapiStripePayment;
       'attachments.authorization': AttachmentsAuthorization;
       'attachments.certificate': AttachmentsCertificate;
     }
