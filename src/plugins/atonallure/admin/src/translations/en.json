@@ -1,4 +1,5 @@
 {
   "file.actions.valid": "Valid",
-  "file.actions.invalid": "Reject"
+  "file.actions.invalid": "Reject",
+  "file.actions.empty": "No documents to validate"
 }
