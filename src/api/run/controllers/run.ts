@@ -31,6 +31,11 @@ export default factories.createCoreController("api::run.run", ({ strapi }) => ({
         data: ctx.request.body.data,
         ...ctx.query,
       });
+    } else {
+      entry = await strapi.entityService.update("api::run.run", entry.id, {
+        data: ctx.request.body.data,
+        ...ctx.query,
+      });
     }
 
     const sanitizedEntity = await this.sanitizeOutput(entry, ctx);
