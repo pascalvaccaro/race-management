@@ -6,15 +6,15 @@
  *
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedNumber, FormattedDate } from 'react-intl';
 import { Table, Thead, Tbody, Tr, Td, Th, TFooter } from '@strapi/design-system/Table';
 import { Flex } from '@strapi/design-system/Flex';
 import { Box } from '@strapi/design-system/Box';
 import { IconButton } from '@strapi/design-system/IconButton';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { Typography } from '@strapi/design-system/Typography';
-import parse from 'html-react-parser';
 import { NextLink, PageLink, Pagination, PreviousLink } from '@strapi/design-system/Pagination';
 import { EmptyStateLayout } from '@strapi/design-system/EmptyStateLayout';
 import { VisuallyHidden } from '@strapi/design-system/VisuallyHidden';
@@ -22,12 +22,9 @@ import { Button } from '@strapi/design-system/Button';
 import Pencil from '@strapi/icons/Pencil';
 import CarretUp from '@strapi/icons/CarretUp';
 import CarretDown from '@strapi/icons/CarretDown';
-import { Badge } from '@strapi/design-system/Badge';
 import Plus from '@strapi/icons/Plus';
 import ChartPie from '@strapi/icons/ChartPie';
-import LinkIcon from './linkIcon';
-import { currencies } from './constant';
-import EmbedCodeModal from './embedCodeModal';
+import Cross from '@strapi/icons/Cross';
 import SettingLink from './SettingLink';
 
 const ProductTable = ({
@@ -42,75 +39,29 @@ const ProductTable = ({
   handleSortDescendingPrice,
   sortAscendingPrice,
   handleClickCreateProduct,
+  handleClickDeleteProduct,
 }) => {
-  let { url } = useRouteMatch();
+  const { url } = useRouteMatch();
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
-  const [isVisible, setIsVisible] = useState(false);
-  const [productId, setIsProductId] = useState('');
-  const [isSubscription, setIsSubscription] = useState(false);
-
-  const handleSortCarretUp = () => {
+  const handleSortCarretUp = React.useCallback(() => {
     handleSortDescendingName();
-  };
+  }, [handleSortDescendingName]);
 
-  const handleSortCarretDown = () => {
+  const handleSortCarretDown = React.useCallback(() => {
     handleSortAscendingName();
-  };
+  }, [handleSortAscendingName]);
 
-  const handleSortCarretUpPrice = () => {
+  const handleSortCarretUpPrice = React.useCallback(() => {
     handleSortDescendingPrice();
-  };
+  }, [handleSortDescendingPrice]);
 
-  const handleSortCarretDownPrice = () => {
+  const handleSortCarretDownPrice = React.useCallback(() => {
     handleSortAscendingPrice();
-  };
+  }, [handleSortAscendingPrice]);
 
-  const handleClickLink = (productId, isSubscription) => {
-    setIsProductId(productId);
-    setIsSubscription(isSubscription);
-    setIsVisible(true);
-  };
-
-  const handleCloseEmbedModal = () => {
-    setIsVisible(false);
-  };
-
-  const getProductPrice = (price, currency) => {
-    const currencyObj = currencies.find(
-      item => item.abbreviation.toLowerCase() === currency.toLowerCase()
-    );
-    const symbol = currencyObj.symbol;
-
-    const priceWithSymbol = (
-      <Flex>
-        <span>{parse(symbol)}</span>
-        <Box>{new Intl.NumberFormat().format(price)}</Box>
-      </Flex>
-    );
-
-    return priceWithSymbol;
-  };
-
-  const getDateTime = date => {
-    const dates = new Date(date);
-
-    // get the date as a string
-    const createdDate = dates.toDateString();
-
-    // get the time as a string
-    const createdTime = dates.toLocaleTimeString();
-    const dateTime = (
-      <Badge>
-        {createdDate}&nbsp;&nbsp;&nbsp;{createdTime}
-      </Badge>
-    );
-
-    return dateTime;
-  };
-
-  const getPaymentMode = (isSubscription, interval) => {
+  const getPaymentMode = React.useCallback((isSubscription, interval) => {
     let mode;
 
     if (!isSubscription && !interval) {
@@ -126,9 +77,9 @@ const ProductTable = ({
     }
 
     return mode;
-  };
+  }, []);
 
-  const getTrialPeriodDays = (trialPeriodDays, isSubscription) => {
+  const getTrialPeriodDays = React.useCallback((trialPeriodDays, isSubscription) => {
     let trialDays;
 
     if (isSubscription && trialPeriodDays) {
@@ -140,16 +91,10 @@ const ProductTable = ({
     }
 
     return trialDays;
-  };
+  }, []);
 
   return (
     <>
-      <EmbedCodeModal
-        productId={productId}
-        isVisibleEmbedCode={isVisible}
-        handleCloseEmbedCode={handleCloseEmbedModal}
-        isSubscription={isSubscription}
-      />
       <Box
         paddingTop={6}
         paddingBottom={6}
@@ -163,14 +108,14 @@ const ProductTable = ({
             rowCount={ROW_COUNT}
             footer={
               <TFooter icon={<Plus />} onClick={handleClickCreateProduct}>
-                Create New Product / Subscription
+                Créer un nouveau produit / abonnement
               </TFooter>
             }
           >
             <Thead>
               <Tr>
                 <Th>
-                  <Typography variant="sigma">Name</Typography>&nbsp;
+                  <Typography variant="sigma">Nom</Typography>&nbsp;
                   {sortAscendingName ? (
                     <IconButton
                       onClick={handleSortCarretUp}
@@ -188,7 +133,7 @@ const ProductTable = ({
                   )}
                 </Th>
                 <Th>
-                  <Typography variant="sigma">Price</Typography>
+                  <Typography variant="sigma">Prix</Typography>
                   {sortAscendingPrice ? (
                     <IconButton
                       onClick={handleSortCarretUpPrice}
@@ -206,10 +151,13 @@ const ProductTable = ({
                   )}
                 </Th>
                 <Th>
-                  <Typography variant="sigma">Payment Mode</Typography>
+                  <Typography variant="sigma">Mode de paiement</Typography>
                 </Th>
                 <Th>
-                  <Typography variant="sigma">Trial Days</Typography>
+                  <Typography variant="sigma">Période d'essai</Typography>
+                </Th>
+                <Th>
+                  <Typography variant="sigma">Product ID / Price ID</Typography>
                 </Th>
                 <Th>
                   <VisuallyHidden>Actions</VisuallyHidden>
@@ -229,12 +177,15 @@ const ProductTable = ({
                         {product.title}
                       </Typography>
                       <Box>
-                        <Typography variant="pi">{getDateTime(product.createdAt)}</Typography>
+                        <Typography variant="pi">
+                          <FormattedDate value={product.createdAt} />
+                        </Typography>
                       </Box>
                     </Td>
                     <Td>
                       <Typography textColor="neutral800">
-                        {getProductPrice(product.price, product.currency)}
+                        <FormattedNumber value={product.price} currency={product.currency} style="currency" maximumFractionDigits="0" />
+                        <span>{" "}({product.isFreeAmount ? 'libre' : 'fixe'})</span>
                       </Typography>
                     </Td>
                     <Td>
@@ -248,26 +199,31 @@ const ProductTable = ({
                       </Typography>
                     </Td>
                     <Td>
+                      <Typography textColor="neutral800">
+                        {product.stripeProductId} <br /> {product.stripePriceId}
+                      </Typography>
+                    </Td>
+                    <Td>
                       <Flex justifyContent="end">
-                        <IconButton
-                          onClick={() => handleClickLink(product.id, product.isSubscription)}
-                          label="Embed Code"
-                          icon={<LinkIcon />}
-                        />
-                        <Box paddingLeft={3}>
+                        <Link
+                          to={`${url}/report/${product.id}/${product.title}`}
+                          style={{ textDecoration: 'none' }}
+                        >
+                          <IconButton label="Lister les donations" icon={<ChartPie />} />
+                        </Link>
+                        <Box paddingLeft={2}>
                           <IconButton
                             onClick={() => handleEditClick(product.id)}
-                            label="Edit"
+                            label="Éditer"
                             icon={<Pencil />}
                           />
                         </Box>
-                        <Box paddingLeft={3}>
-                          <Link
-                            to={`${url}/report/${product.id}/${product.title}`}
-                            style={{ textDecoration: 'none' }}
-                          >
-                            <IconButton label="Report" icon={<ChartPie />} />
-                          </Link>
+                        <Box paddingLeft={2}>
+                          <IconButton
+                            onClick={() => handleClickDeleteProduct(product.id)}
+                            label="Supprimer"
+                            icon={<Cross />}
+                          />
                         </Box>
                       </Flex>
                     </Td>

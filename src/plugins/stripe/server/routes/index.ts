@@ -49,6 +49,14 @@ export default [
     },
   },
   {
+    method: 'DELETE',
+    path: '/deleteProduct/:id',
+    handler: 'stripeController.deleteProduct',
+    config: {
+      policies: ['admin::isAuthenticatedAdmin']
+    },
+  },
+  {
     method: 'POST',
     path: '/createCheckoutSession',
     handler: 'stripeController.createCheckoutSession',

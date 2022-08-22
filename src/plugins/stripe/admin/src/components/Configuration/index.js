@@ -31,8 +31,6 @@ const Configuration = () => {
     stripeLiveSecKey: '',
     stripeTestPubKey: '',
     stripeTestSecKey: '',
-    checkoutSuccessUrl: '',
-    checkoutCancelUrl: '',
     currency: undefined,
   });
 
@@ -44,8 +42,6 @@ const Configuration = () => {
     stripeLiveSecKey: '',
     stripeTestPubKey: '',
     stripeTestSecKey: '',
-    checkoutSuccessUrl: '',
-    checkoutCancelUrl: '',
     currency: '',
   });
 
@@ -60,8 +56,6 @@ const Configuration = () => {
           stripeLiveSecKey,
           stripeTestPubKey,
           stripeTestSecKey,
-          checkoutSuccessUrl,
-          checkoutCancelUrl,
           currency,
         } = response.data.response;
         setStripeConfiguration({
@@ -71,8 +65,6 @@ const Configuration = () => {
           stripeLiveSecKey,
           stripeTestPubKey,
           stripeTestSecKey,
-          checkoutSuccessUrl,
-          checkoutCancelUrl,
           currency,
         });
       }
@@ -96,10 +88,6 @@ const Configuration = () => {
       setError({ ...error, stripeTestPubKey: '' });
     } else if (name === 'stripeTestSecKey') {
       setError({ ...error, stripeTestSecKey: '' });
-    } else if (name === 'checkoutSuccessUrl') {
-      setError({ ...error, checkoutSuccessUrl: '' });
-    } else if (name === 'checkoutCancelUrl') {
-      setError({ ...error, checkoutCancelUrl: '' });
     }
   };
 
@@ -111,8 +99,6 @@ const Configuration = () => {
       !stripeConfiguration.stripeLiveSecKey &&
       !stripeConfiguration.stripeTestPubKey &&
       !stripeConfiguration.stripeTestSecKey &&
-      !stripeConfiguration.checkoutSuccessUrl &&
-      !stripeConfiguration.checkoutCancelUrl &&
       !stripeConfiguration.currency
     ) {
       setError({
@@ -121,8 +107,6 @@ const Configuration = () => {
         stripeLiveSecKey: 'Live Stripe Secret Key is required',
         stripeTestPubKey: 'Test Stripe Publishable Key is required',
         stripeTestSecKey: 'Test Stripe Secret Key is required',
-        checkoutSuccessUrl: 'Checkout Success Page URL is required',
-        checkoutCancelUrl: 'Checkout Cancel Page URL is required',
         currency: 'Currency is required',
       });
       setIsSubmitting(false);
@@ -148,18 +132,6 @@ const Configuration = () => {
       setError({
         ...error,
         stripeTestSecKey: 'Test Stripe Secret Key is required',
-      });
-      setIsSubmitting(false);
-    } else if (!stripeConfiguration.checkoutSuccessUrl) {
-      setError({
-        ...error,
-        checkoutSuccessUrl: 'Checkout Success Page URL is required',
-      });
-      setIsSubmitting(false);
-    } else if (!stripeConfiguration.checkoutCancelUrl) {
-      setError({
-        ...error,
-        checkoutCancelUrl: 'Checkout Cancel Page URL is required',
       });
       setIsSubmitting(false);
     } else if (!stripeConfiguration.currency) {
@@ -327,32 +299,6 @@ const Configuration = () => {
 
           <Box paddingTop={2}>
             <Grid gap={4}>
-              <GridItem col={6} s={12}>
-                <Box paddingTop={2} paddingBottom={2}>
-                  <TextInput
-                    name="checkoutSuccessUrl"
-                    label="Payment Success Page URL"
-                    required
-                    value={stripeConfiguration.checkoutSuccessUrl}
-                    error={error.checkoutSuccessUrl ? error.checkoutSuccessUrl : ''}
-                    onChange={handleChange}
-                    hint="Redirects to the success page after the  payment successful"
-                  />
-                </Box>
-              </GridItem>
-              <GridItem col={6} s={12}>
-                <Box paddingTop={2} paddingBottom={2}>
-                  <TextInput
-                    name="checkoutCancelUrl"
-                    label="Payment Cancel Page URL"
-                    required
-                    value={stripeConfiguration.checkoutCancelUrl}
-                    error={error.checkoutCancelUrl ? error.checkoutCancelUrl : ''}
-                    onChange={handleChange}
-                    hint="Redirects to the cancel page after the  payment failed"
-                  />
-                </Box>
-              </GridItem>
               <GridItem col={6} s={12}>
                 <Box paddingBottom={2}>
                   <Select

@@ -4,6 +4,7 @@
   "description": "Online payments and subscriptions made simple, secure and fast.This free plugin enables you to accept online payments and create subscriptions using Credit Card, Apple pay and Google pay on your Strapi app via Stripe.",
   "strapi": {
     "name": "strapi-stripe",
+    "displayName": "Stripe",
     "description": "Online payments made simple, secure and fast. This free plugin enables you to accept online payments using Credit Card, Apple pay and Google pay on your Strapi website or app via Stripe.",
     "kind": "plugin"
   },

@@ -90,5 +90,8 @@ export default {
       mappedBy: 'stripeProduct',
       configurable: false,
     },
+    isFreeAmount: {
+      type: 'boolean',
+    }
   },
 };

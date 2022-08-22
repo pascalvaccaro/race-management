@@ -4,6 +4,7 @@
   "description": "This is the description of the plugin.",
   "strapi": {
     "name": "atonallure",
+    "displayName": "A Ton Allure",
     "description": "Description of atonallure plugin",
     "kind": "plugin"
   },

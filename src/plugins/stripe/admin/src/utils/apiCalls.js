@@ -24,7 +24,8 @@ export async function createStripeProduct(
   description,
   isSubscription,
   paymentInterval,
-  trialPeriodDays
+  trialPeriodDays,
+  isFreeAmount,
 ) {
   const response = await axios.post('/strapi-stripe/createProduct', {
     title,
@@ -35,6 +36,7 @@ export async function createStripeProduct(
     isSubscription,
     paymentInterval,
     trialPeriodDays,
+    isFreeAmount,
   });
 
   return response;
@@ -58,7 +60,8 @@ export async function updateStripeProduct(
   url,
   description,
   productImage,
-  stripeProductId
+  stripeProductId,
+  isFreeAmount,
 ) {
   const response = await axios.put(`/strapi-stripe/updateProduct/${id}`, {
     title,
@@ -66,7 +69,16 @@ export async function updateStripeProduct(
     description,
     productImage,
     stripeProductId,
+    isFreeAmount,
   });
+
+  return response;
+}
+
+export async function deleteStripeProduct(
+  id,
+) {
+  const response = await axios.delete(`/strapi-stripe/deleteProduct/${id}`);
 
   return response;
 }

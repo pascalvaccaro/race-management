@@ -60,7 +60,8 @@ const PaymentDetailsTable = () => {
 
     if (response?.data) {
       setPayments(response.data.payments);
-      setProductDetail(response.data.payments[0].stripeProduct);
+      if (response.data.payments.length)
+        setProductDetail(response.data.payments[0].stripeProduct);
       setTotalCount(response.data.count);
     }
   }, [sortAscendingName, sortAscendingEmail, sortAscendingTxnDate, offset]);
@@ -147,11 +148,11 @@ const PaymentDetailsTable = () => {
       mode = 'One-Time';
     } else if (isSubscription && interval) {
       if (interval === 'month') {
-        mode = 'Monthly';
+        mode = 'Mensuel';
       } else if (interval === 'year') {
-        mode = 'Year';
+        mode = 'Annuel';
       } else if (interval === 'week') {
-        mode = 'Weekly';
+        mode = 'Hebdomadaire';
       }
     }
 
@@ -165,14 +166,14 @@ const PaymentDetailsTable = () => {
     <>
       <Box paddingLeft={7} paddingTop={6}>
         <Link to="/plugins/strapi-stripe" startIcon={<ArrowLeft />}>
-          Back
+          Retour
         </Link>
       </Box>
       <Box paddingTop={4} paddingLeft={7}>
         <Stack horizontal spacing={3}>
           <Breadcrumbs label="Category model, name field">
             <Crumb>{productName}</Crumb>
-            <Crumb>Transaction Details</Crumb>
+            <Crumb>Détails de la transaction</Crumb>
           </Breadcrumbs>
         </Stack>
       </Box>
@@ -191,60 +192,60 @@ const PaymentDetailsTable = () => {
             <Thead>
               <Tr>
                 <Th>
-                  <Typography variant="sigma">Customer Name</Typography>
+                  <Typography variant="sigma">Nom du donateur</Typography>
                   {sortAscendingName ? (
                     <IconButton
                       onClick={handleSortNameCarretUp}
-                      label="sort by Name"
+                      label="trier par nom"
                       noBorder
                       icon={<CarretUp />}
                     />
                   ) : (
                     <IconButton
                       onClick={handleSortNameCarretDown}
-                      label="sort by Name"
+                      label="trier par nom"
                       noBorder
                       icon={<CarretDown />}
                     />
                   )}
                 </Th>
                 <Th>
-                  <Typography variant="sigma">Customer Email</Typography>
+                  <Typography variant="sigma">Email</Typography>
                   {sortAscendingEmail ? (
                     <IconButton
                       onClick={handleSortEmailCarretUp}
-                      label="sort by Email"
+                      label="trier par email"
                       noBorder
                       icon={<CarretUp />}
                     />
                   ) : (
                     <IconButton
                       onClick={handleSortEmailCarretDown}
-                      label="sort by Email"
+                      label="trier par email"
                       noBorder
                       icon={<CarretDown />}
                     />
                   )}
                 </Th>
                 <Th>
-                  <Typography variant="sigma">Payment Type</Typography>
+                  <Typography variant="sigma">Type de paiement</Typography>
                 </Th>
                 <Th>
-                  <Typography variant="sigma">Transaction Amount</Typography>
+                  <Typography variant="sigma">Montant</Typography>
                 </Th>
                 <Th>
-                  <Typography variant="sigma">Purchased Date</Typography>
+                  <Typography variant="sigma">Date</Typography>
                   {sortAscendingTxnDate ? (
                     <IconButton
                       onClick={handleSortTxnDateCarretUp}
-                      label="sort by TxnDate"
+                      label="trier par date"
                       noBorder
                       icon={<CarretUp />}
                     />
                   ) : (
                     <IconButton
                       onClick={handleSortTxnDateCarretDown}
-                      label="sort by TxnDate"
+                      label="trier par date"
                       noBorder
                       icon={<CarretDown />}
                     />
@@ -288,7 +289,7 @@ const PaymentDetailsTable = () => {
           <Box background="neutral100">
             <EmptyStateLayout
               icon={<ExclamationMarkCircle />}
-              content="This product dont have any transaction"
+              content="Ce produit n'a aucune donation"
             />
           </Box>
         )}
@@ -301,14 +302,14 @@ const PaymentDetailsTable = () => {
                 pageNumber - 1
               }`}
             >
-              Go to previous page
+              Page précédente
             </PreviousLink>
             {[...Array(pageCount)].map((count, idx) => (
               <PageLink
                 number={idx + 1}
                 to={`/plugins/strapi-stripe/report/${productId}/${productName}?page=${idx + 1}`}
               >
-                Go to page 1
+                {idx + 1}
               </PageLink>
             ))}
 
@@ -317,7 +318,7 @@ const PaymentDetailsTable = () => {
                 pageNumber + 1
               }`}
             >
-              Go to next page
+              Page suivante
             </NextLink>
           </Pagination>
         ) : (

@@ -11,7 +11,7 @@ import { Typography } from '@strapi/design-system/Typography';
 import { Divider } from '@strapi/design-system/Divider';
 import CreateProduct from '../CreateProduct';
 import ProductTable from './productTable';
-import { getStripeProduct, createStripeProduct, updateStripeProduct } from '../../utils/apiCalls';
+import { getStripeProduct, createStripeProduct, updateStripeProduct, deleteStripeProduct } from '../../utils/apiCalls';
 import EditProduct from './editProduct';
 
 const limit = 5;
@@ -47,7 +47,7 @@ const ProductList = () => {
 
       const response = await getStripeProduct(offset, limit, sort, order);
 
-      setProductData(response.data.res);
+      setProductData(response.data.data);
       setCount(response.data.count);
     })();
   }, [isVisible, isEditVisible, offset, sortAscendingName, sortAscendingPrice]);
@@ -64,7 +64,8 @@ const ProductList = () => {
     description,
     isSubscription,
     paymentInterval,
-    trialPeriodDays
+    trialPeriodDays,
+    isFreeAmount,
   ) => {
     const createProduct = await createStripeProduct(
       title,
@@ -74,7 +75,8 @@ const ProductList = () => {
       description,
       isSubscription,
       paymentInterval,
-      trialPeriodDays
+      trialPeriodDays,
+      isFreeAmount,
     );
 
     if (createProduct?.data?.id) {
@@ -121,7 +123,8 @@ const ProductList = () => {
     url,
     description,
     productImageId,
-    stripeProductId
+    stripeProductId,
+    isFreeAmount,
   ) => {
     const updateProduct = await updateStripeProduct(
       productId,
@@ -129,24 +132,28 @@ const ProductList = () => {
       url,
       description,
       productImageId,
-      stripeProductId
+      stripeProductId,
+      isFreeAmount,
     );
 
     if (updateProduct?.data?.id) {
       setEditVisible(false);
     }
   };
+  const handleClickDeleteProduct = async (productId) => {
+    await deleteStripeProduct(productId);
+    setProductData(prev => prev.filter(p => p.id !== productId));
+  }
 
   const handleClickCreateProduct = () => setIsVisible(prev => !prev);
 
   return (
     <Box>
       <Box paddingTop={6} paddingLeft={7}>
-        <Typography variant="alpha">Payment via Stripe</Typography>
+        <Typography variant="alpha">Donations via Stripe</Typography>
         <Box>
           <Typography variant="omega">
-            The payment plugin enables you to accept online payments using Credit Card, Apple pay
-            and Google pay on your Strapi website or app via Stripe.
+            Les donations peuvent être effectuées avec une carte de crédit, Apple Pay et Google Pay sur le site A Ton Allure.
           </Typography>
         </Box>
       </Box>
@@ -156,42 +163,13 @@ const ProductList = () => {
       <CreateProduct
         isVisible={isVisible}
         handleClose={handleCloseModal}
-        handleClickSave={(
-          title,
-          price,
-          imageId,
-          imageUrl,
-          description,
-          isSubscription,
-          paymentInterval,
-          trialPeriodDays
-        ) =>
-          handleSaveProduct(
-            title,
-            price,
-            imageId,
-            imageUrl,
-            description,
-            isSubscription,
-            paymentInterval,
-            trialPeriodDays
-          )
-        }
+        handleClickSave={handleSaveProduct}
       />
       <EditProduct
         productId={productId}
         isEditVisible={isEditVisible}
         handleCloseEdit={handleCloseEditModal}
-        handleClickUpdateEdit={(
-          productId,
-          title,
-          url,
-          description,
-          productImageId,
-          stripeProductId
-        ) =>
-          handleUpdateProduct(productId, title, url, description, productImageId, stripeProductId)
-        }
+        handleClickUpdateEdit={handleUpdateProduct}
       />
 
       <Box>
@@ -207,6 +185,7 @@ const ProductList = () => {
           handleSortDescendingPrice={handleSortDescendingPrice}
           sortAscendingPrice={sortAscendingPrice}
           handleClickCreateProduct={handleClickCreateProduct}
+          handleClickDeleteProduct={handleClickDeleteProduct}
         />
       </Box>
     </Box>
