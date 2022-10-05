@@ -1,7 +1,7 @@
 import { parse } from "pg-connection-string";
 
 export default ({ env }) => {
-  const config = parse(process.env.DATABASE_URL);
+  const config = parse(env('DATABASE_URL'));
   return {
     connection: {
       client: "postgres",
