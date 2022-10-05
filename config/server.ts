@@ -4,5 +4,4 @@ export default ({ env }) => ({
   app: {
     keys: env.array('APP_KEYS'),
   },
-  url: env('PUBLIC_URL', 'https://atonallure-strapi.herokupapp.com')
 });
