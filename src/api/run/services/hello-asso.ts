@@ -2,8 +2,7 @@
  * hello-asso service.
  */
 
-import { GetModel, ApiRaceRace, ApiRunnerRunner, ApiRunRun } from "../../../../schemas";
-import { RunnerService } from "../../runner/services/runner";
+import { GenericService } from "@strapi/strapi/lib/core-api/service";
 
 type HelloAssoPayload = {
   customFields: { answer: string; name: string }[];
@@ -24,11 +23,7 @@ const labels = {
 } as const;
 
 const helloAssoService = () => ({
-  registerRun(
-    data: HelloAssoPayload,
-    runner: GetModel<ApiRunnerRunner>,
-    race: GetModel<ApiRaceRace>
-  ) {
+  registerRun(data: HelloAssoPayload, runner: any, race: any) {
     const fields = data.customFields || [];
     const getFieldAnswer = (name: string, cb: (v: string) => boolean) => {
       const field = fields.find((field) => field.name === name);
@@ -53,13 +48,13 @@ const helloAssoService = () => ({
     };
     return strapi.entityService.create("api::run.run", {
       data: run,
-    }) as Promise<GetModel<ApiRunRun>>;
+    });
   },
 
   async *extractRunners(data: HelloAssoPayload) {
     const { payer, items = [] } = data;
     const { email } = payer;
-    const service = await strapi.service<RunnerService>('api::runner.runner');
+    const service = strapi.service("api::runner.runner");
     const mainRunner = await service.findRunnerByEmail({ email });
     if (mainRunner) yield mainRunner;
 
@@ -70,16 +65,16 @@ const helloAssoService = () => ({
 
       yield runner.id
         ? runner
-        : ((await strapi.entityService.create("api::runner.runner", {
+        : await strapi.entityService.create("api::runner.runner", {
             data: {
               firstname,
               lastname,
               email,
             },
-          })) as GetModel<ApiRunnerRunner>);
+          });
     }
   },
-});
+} as GenericService);
 
 export default helloAssoService;
 export type HelloAssoService = ReturnType<typeof helloAssoService>;

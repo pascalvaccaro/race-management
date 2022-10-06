@@ -4,9 +4,6 @@
 
 import { factories } from "@strapi/strapi";
 import QRCode from 'qrcode';
-import { ApiRunRun, GetModel } from "../../../../schemas";
-import { RaceService } from "../../race/services/race";
-import { HelloAssoService } from "../services/hello-asso";
 
 export default factories.createCoreController("api::run.run", ({ strapi }) => ({
   async create(ctx) {
@@ -63,14 +60,14 @@ export default factories.createCoreController("api::run.run", ({ strapi }) => ({
   async register(ctx) {
     const { provider } = ctx.params;
     const { body } = ctx.request;
-    const service = strapi.service<HelloAssoService>(`api::run.${provider}`);
+    const service = strapi.service(`api::run.${provider}`);
     const race =
       body.race ||
-      (await strapi.service<RaceService>("api::race.race").findRaceByDate());
+      (await strapi.service("api::race.race").findRaceByDate());
 
     if (!race) return { data: [] };
 
-    const ops = [] as Promise<GetModel<ApiRunRun>>[];
+    const ops = [];
     for await (const runner of service.extractRunners(body)) {
       ops.push(service.registerRun(body, runner, race));
     }
