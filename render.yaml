@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: strapi
+    name: atonallure-race-manager
     env: node
     plan: starter
     buildCommand: yarn install && yarn build
